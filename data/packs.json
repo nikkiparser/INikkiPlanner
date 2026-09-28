@@ -31,8 +31,7 @@
         "price": 4.99,
         "currency_type": "USD",
         "gives_petal_note": true,
-        "petal_note_amount": 300,
-        "tier": 6
+        "petal_note_amount": 300
       },
       {
         "id": "210C01T01I02",
@@ -70,8 +69,7 @@
         "price": 12.99,
         "currency_type": "USD",
         "gives_petal_note": true,
-        "petal_note_amount": 880,
-        "tier": 6
+        "petal_note_amount": 880
       }
     ],
     "Wild Bird Flightpath": [],
