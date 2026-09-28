@@ -4,8 +4,30 @@
       {
         "id": "210C01T01I01",
         "pack_name": "Longing Apart",
-        "items_included": ["Cherished Rose", "Lvl Boost", "In Sweet Dreams", "Love's Answer", "Firefly Box", "Energy Crystal", "Shining Particles", "Shiny Bubbles", "Thread of Purity", "Bling"],
-        "item_amount": [30, 5, 1, 1, 3, 420, 1710, 2010, 516000],
+        "items_included": [
+          "Cherished Rose",
+          "Lvl Boost",
+          "In Sweet Dreams",
+          "Love's Answer",
+          "Firefly Box",
+          "Energy Crystal",
+          "Shining Particles",
+          "Shiny Bubbles",
+          "Thread of Purity",
+          "Bling"
+        ],
+        "item_amount": [
+          30,
+          5,
+          1,
+          2800,
+          1,
+          3,
+          420,
+          1710,
+          2010,
+          516000
+        ],
         "price": 4.99,
         "currency_type": "USD",
         "gives_petal_note": true,
@@ -15,8 +37,36 @@
       {
         "id": "210C01T01I02",
         "pack_name": "Love Everlasting",
-        "items_included": ["Cherished Rose", "Lvl Boost", "Momo's Cloak: Rose", "In Sweet Dreams", "Thornwoven Rose", "Love's Answer", "Stargleam Box", "Firefly Box", "Energy Crystal", "Shining Particles", "Shiny Bubbles", "Thread of Purity", "Bling"],
-        "item_amount": [88, 15, 1, 1, 1, 7200, 1, 1, 9, 1260, 5130, 6030, 1500000],
+        "items_included": [
+          "Cherished Rose",
+          "Lvl Boost",
+          "Momo's Cloak: Rose",
+          "In Sweet Dreams",
+          "Thornwoven Rose",
+          "Love's Answer",
+          "Stargleam Box",
+          "Firefly Box",
+          "Energy Crystal",
+          "Shining Particles",
+          "Shiny Bubbles",
+          "Thread of Purity",
+          "Bling"
+        ],
+        "item_amount": [
+          88,
+          15,
+          1,
+          1,
+          1,
+          7200,
+          1,
+          1,
+          9,
+          1260,
+          5130,
+          6030,
+          1500000
+        ],
         "price": 12.99,
         "currency_type": "USD",
         "gives_petal_note": true,
@@ -29,27 +79,35 @@
     "Love's Keepsake": []
   },
   "autumn_dreamweave": {
-    "Dreamweave Milestones": [],
-    "Autumn Wardrobe": []
+    "Chestnut Verse": [],
+    "Autumn Garden Afternoon": []
   },
   "the_roses_heart": {
-    "Heart Keepsakes": [],
-    "Floral Echoes": []
+    "The Rose's Feelings": []
   },
   "tide_echo": {
-    "Tidal Soundtracks": [],
-    "Deep Sea Radiance": []
+    "Golden Feather Trail": []
   },
   "golden_glow_momo": {
-    "Momo's Special Corner": [],
-    "Golden Sparkles": []
+    "Momo's Shining Crown": []
   },
   "memory_hall": {
-    "Past Seasonal Collections": [],
-    "Retrospective Projections": []
+    "Dawn Blooms": [],
+    "Dream of Koi": [],
+    "Inkbloom Gallery": [],
+    "Detective Debut": []
   },
   "pearpal_selected": {
-    "Curated Community Choices": [],
-    "Special Item Pack": []
+    "Clothing": []
+  },
+  "stellarite": {
+    "Stellarite Packs": []
+  },
+  "resonance": {
+    "Surging Ebb": [],
+    "Tranquility Droplet": []
+  },
+  "diamond": {
+    "Diamond Exchange": []
   }
 }
