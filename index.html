@@ -1,457 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pear-Pal Registry - Persistent Storage Edition</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #130f1a 0%, #1e1426 50%, #0a0d14 100%);
-            --shop-panel-bg: rgba(33, 27, 41, 0.75);
-            --sidebar-active: linear-gradient(90deg, rgba(170, 130, 200, 0.2) 0%, rgba(170, 130, 200, 0) 100%);
-            --primary-purple: #d1b3f0;
-            --accent-gold: #f7d594;
-            --text-light: #f5f2f7;
-            --text-muted: #9489a1;
-            --card-border: 1px solid rgba(209, 179, 240, 0.12);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inikki Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2b1b3d; --ink-soft:#6d5a80; --paper:#fbf3f7; --card:#ffffff;
+  --rose:#b83a68; --rose-dark:#962c53; --lilac:#ece4f7; --line:#e6d8ea; --gold:#a97c14;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Nunito Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ink:#f3e9f8; --ink-soft:#b9a6cc; --paper:#1d1428; --card:#2a1d3a; --lilac:#382850; --line:#453360; --rose:#f08bb0; --rose-dark:#ffb3cd; --gold:#e8c065}
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:5rem}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.55 var(--sans)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+/* top bar */
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem clamp(1rem,4vw,2.5rem);background:var(--paper);border-bottom:1px solid var(--line)}
+.bar h1{margin:0;font:700 1.5rem/1 var(--serif);letter-spacing:-.01em}
+.cart-btn{display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;border:0;border-radius:999px;background:var(--rose);color:#fff;font-weight:700}
+.cart-btn:hover{background:var(--rose-dark)}
+.cart-btn .count{min-width:1.5rem;padding:0 .4rem;border-radius:999px;background:#fff;color:var(--rose-dark);text-align:center;font-size:.85rem;line-height:1.5rem}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-light);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+/* collection tabs */
+.tabs{display:flex;gap:.4rem;overflow-x:auto;padding:1rem clamp(1rem,4vw,2.5rem) .5rem;scrollbar-width:thin}
+.tab{flex:none;padding:.45rem 1rem;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink-soft);font-weight:600}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 
-        .top-currency-bar {
-            width: 100%;
-            height: 65px;
-            background: rgba(10, 7, 15, 0.95);
-            border-bottom: 1px solid rgba(209, 179, 240, 0.18);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-            position: fixed;
-            top: 0;
-            z-index: 100;
-        }
+main{padding:1rem clamp(1rem,4vw,2.5rem) 4rem;max-width:1200px;margin:0 auto}
+h2.sub{margin:2rem 0 1rem;font:700 1.4rem/1.2 var(--serif)}
+.empty{margin:0;color:var(--ink-soft);font-style:italic}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:1.25rem}
 
-        .menu-title {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-purple);
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
+/* pack wrapper */
+.pack{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pack-head{padding:1rem 1.1rem;background:var(--lilac)}
+.pack-head h3{margin:0;font:700 1.25rem/1.2 var(--serif)}
+.pack-meta{margin:.25rem 0 0;font-size:.85rem;color:var(--ink-soft)}
+.items{list-style:disc;margin:0;padding:.9rem 1.1rem .9rem 2.2rem;flex:1}
+.items li{padding:.3rem 0}
+.items li::marker{color:var(--rose)}
+.row{display:flex;align-items:center;gap:.75rem}
+.thumb{position:relative;flex:none;width:44px;height:44px;border-radius:8px;background:var(--lilac);border:1px dashed var(--line);overflow:hidden}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.row .name{flex:1;min-width:0}
+.row .amt{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.petal{margin:0 1.1rem .8rem;padding:.4rem .7rem;border-radius:8px;background:var(--lilac);font-size:.9rem;font-weight:600;color:var(--gold)}
+.pack-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.1rem;border-top:1px solid var(--line)}
+.price{font:700 1.3rem/1 var(--serif)}
+.add{padding:.55rem 1.1rem;border:0;border-radius:8px;background:var(--rose);color:#fff;font-weight:700}
+.add:hover{background:var(--rose-dark)}
+.add.added{background:var(--ink);color:var(--paper)}
 
-        .currency-container { display: flex; gap: 1.5rem; }
-
-        .currency-wallet-box {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(209, 179, 240, 0.2);
-            border-radius: 20px;
-            padding: 0.3rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .currency-wallet-box label { font-size: 0.75rem; color: var(--text-muted); }
-        .currency-wallet-box input {
-            background: none; border: none; color: var(--accent-gold);
-            font-weight: 600; width: 75px; text-align: right; outline: none;
-        }
-
-        .shop-wrapper {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            margin-top: 65px;
-            min-height: calc(100vh - 65px);
-            width: 100%;
-        }
-
-        .shop-sidebar {
-            background: rgba(15, 11, 20, 0.7);
-            border-right: 1px solid rgba(209, 179, 240, 0.08);
-            padding: 2rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .sidebar-tab {
-            padding: 1rem 2rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .sidebar-tab:hover { color: var(--text-light); }
-
-        .sidebar-tab.active {
-            color: var(--text-light);
-            background: var(--sidebar-active);
-            border-left-color: var(--primary-purple);
-            font-weight: 500;
-        }
-
-        .shop-content-pane {
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .pane-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid rgba(209, 179, 240, 0.08);
-            padding-bottom: 1.5rem;
-        }
-
-        .pane-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .search-filter-input {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(209, 179, 240, 0.15);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            color: white;
-            font-family: inherit;
-            font-size: 0.85rem;
-            outline: none;
-            width: 200px;
-        }
-
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .store-item-card {
-            background: var(--shop-panel-bg);
-            border: var(--card-border);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .store-item-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary-purple);
-        }
-
-        .item-visual-placeholder {
-            height: 130px;
-            background: linear-gradient(180deg, rgba(45,35,60,0.25) 0%, rgba(20,15,25,0.65) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .tier-badge {
-            position: absolute; bottom: 8px; left: 8px;
-            background: rgba(0, 0, 0, 0.65); padding: 0.1rem 0.4rem;
-            border-radius: 4px; font-size: 0.75rem; color: var(--accent-gold);
-        }
-
-        .item-info-row { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; }
-        .item-title { font-size: 0.95rem; font-weight: 500; }
-        
-        .item-cost-footer {
-            margin-top: auto; display: flex; justify-content: space-between;
-            align-items: center; font-size: 0.85rem; color: var(--accent-gold); font-weight: 600;
-        }
-
-        .delete-node-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; }
-        .delete-node-btn:hover { color: #ff6b6b; }
-
-        .management-panel {
-            background: rgba(10, 7, 15, 0.3);
-            border: var(--card-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: auto;
-        }
-
-        .panel-title {
-            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--primary-purple); margin-bottom: 1rem; font-weight: 600;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .backup-btn {
-            background: none; border: 1px solid rgba(209, 179, 240, 0.3);
-            color: var(--text-muted); padding: 0.2rem 0.6rem; border-radius: 4px;
-            font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
-        }
-        .backup-btn:hover { color: white; border-color: white; }
-
-        .form-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; }
-
-        .form-row input, .form-row select {
-            background: rgba(0,0,0,0.5); border: 1px solid rgba(209, 179, 240, 0.2);
-            padding: 0.6rem 1rem; border-radius: 6px; color: white; font-family: inherit; outline: none;
-        }
-
-        .form-row button {
-            background: var(--primary-purple); color: #130f1a; border: none;
-            padding: 0.6rem 1.5rem; font-weight: 600; border-radius: 6px; cursor: pointer;
-        }
-
-        .disclaimer-footer {
-            background: rgba(5, 4, 8, 0.95); padding: 1.5rem; text-align: center;
-            border-top: 1px solid rgba(209, 179, 240, 0.08); margin-top: auto;
-        }
-        .disclaimer-footer p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
-    </style>
+/* cart drawer */
+dialog.cart{margin:0 0 0 auto;width:min(100%,460px);height:100dvh;max-height:100dvh;padding:0;border:0;background:var(--paper);color:var(--ink);box-shadow:-8px 0 30px rgba(0,0,0,.25)}
+dialog.cart::backdrop{background:rgba(20,10,30,.5)}
+.cart-in{display:flex;flex-direction:column;height:100%}
+.cart-top{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--line)}
+.cart-top h2{margin:0;font:700 1.35rem/1 var(--serif)}
+.close{width:2.25rem;height:2.25rem;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);font-size:1.2rem;line-height:1}
+.cart-body{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.cart-body h3{margin:1.5rem 0 .6rem;font:700 1.05rem/1.2 var(--serif)}
+.cart-body h3:first-child{margin-top:0}
+.line{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.line .t{min-width:0}
+.line .t strong{display:block}
+.line .t small{color:var(--ink-soft)}
+.qty{display:flex;align-items:center;gap:.35rem}
+.qty button{width:1.9rem;height:1.9rem;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-weight:700}
+.qty span{min-width:1.5rem;text-align:center;font-variant-numeric:tabular-nums}
+.line .lp{min-width:4.5rem;text-align:right;font-weight:700}
+.remove{border:0;background:none;color:var(--ink-soft);text-decoration:underline;font-size:.85rem}
+.get{list-style:none;margin:0;padding:0}
+.get li{padding:.3rem 0}
+.cart-foot{padding:1rem 1.25rem;border-top:1px solid var(--line);background:var(--card)}
+.total{display:flex;justify-content:space-between;align-items:baseline;font:700 1.2rem/1.3 var(--serif)}
+.clear{margin-top:.6rem;border:0;background:none;color:var(--ink-soft);text-decoration:underline}
+.err{padding:2rem 1rem;color:var(--rose-dark)}
+@media (prefers-reduced-motion:no-preference){
+  dialog.cart[open]{animation:slide .22s ease-out}
+  @keyframes slide{from{transform:translateX(100%)}to{transform:none}}
+}
+</style>
 </head>
 <body>
 
-    <div class="top-currency-bar">
-        <div class="menu-title">PEAR-PAL STORAGE REGISTRY</div>
-        <div class="currency-container">
-            <div class="currency-wallet-box">
-                <label>Stellarites:</label>
-                <input type="number" id="wallet-crystals" value="0" min="0" oninput="saveCurrenciesAndSync()">
-            </div>
-            <div class="currency-wallet-box">
-                <label>Pity Pool:</label>
-                <input type="number" id="wallet-pity" value="0" min="0" max="89" oninput="saveCurrenciesAndSync()">
-            </div>
-            <div class="currency-wallet-box" style="border-color: var(--accent-gold);">
-                <label style="color: var(--accent-gold);">Deficit Shortfall:</label>
-                <span id="summary-shortfall" style="font-weight:600; color: var(--accent-gold);">0 Pulls</span>
-            </div>
-        </div>
+<header class="bar">
+  <h1>Inikki Planner</h1>
+  <button class="cart-btn" id="open-cart" type="button">View cart <span class="count" id="cart-count">0</span></button>
+</header>
+
+<nav class="tabs" id="tabs" role="tablist" aria-label="Collections"></nav>
+<main id="main"><p class="empty">Loading packs…</p></main>
+
+<dialog class="cart" id="cart" aria-labelledby="cart-title">
+  <div class="cart-in">
+    <div class="cart-top">
+      <h2 id="cart-title">Your cart</h2>
+      <button class="close" id="close-cart" type="button" aria-label="Close cart">✕</button>
     </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-foot" id="cart-foot"></div>
+  </div>
+</dialog>
 
-    <div class="shop-wrapper">
-        <div class="shop-sidebar" id="sidebar-container">
-            <!-- Tabs build dynamically -->
-        </div>
+<script>
+const DATA_URL = 'data/packs.json';
+const IMG_DIR  = 'images/items/';      // put item images here, named after the item (see slug())
+const IMG_EXT  = 'png';
+const STORE    = 'inikki-cart-v1';
 
-        <div class="shop-content-pane">
-            <div class="pane-header">
-                <div>
-                    <h2 id="pane-category-title">Loading Section...</h2>
-                    <p id="pane-category-desc" style="color: var(--text-muted); font-size: 0.9rem;"></p>
-                </div>
-                <input type="text" id="search-bar" class="search-filter-input" placeholder="Search entries..." oninput="renderActiveShopCategory()">
-            </div>
+let data = {};
+let packs = {};                        // id -> pack (with its collection + section)
+let cart  = {};                        // id -> quantity
+let active = null;
 
-            <div class="store-grid" id="shelf-container">
-                <!-- Data maps here -->
-            </div>
+try { cart = JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { cart = {}; }
 
-            <div class="management-panel">
-                <div class="panel-title">
-                    <span>Register New Library Entry</span>
-                    <button class="backup-btn" onclick="exportDatabaseBackup()">Export JSON Data</button>
-                </div>
-                <div class="form-row">
-                    <input type="text" id="asset-name" placeholder="Item Name (e.g., Starry Nocturne)">
-                    <select id="asset-tier">
-                        <option value="6">6★ Splendor Suit</option>
-                        <option value="5">5★ Standard Suit</option>
-                    </select>
-                    <select id="asset-category">
-                        <option value="terras_treasure">Terra's Treasure</option>
-                        <option value="miracle_packs">Miracle Packs</option>
-                        <option value="clothing_registry">Clothing Registry</option>
-                    </select>
-                    <button onclick="submitNewAssetItem()">Save to Database</button>
-                </div>
-            </div>
-        </div>
-    </div>
+const $ = id => document.getElementById(id);
+const save = () => { try { localStorage.setItem(STORE, JSON.stringify(cart)); } catch (e) {} };
+const num = n => Number(n).toLocaleString();
+const money = (n, cur) => {
+  try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: cur }).format(n); }
+  catch (e) { return n.toFixed(2) + ' ' + cur; }
+};
+// "Momo's Cloak: Rose" -> "momo-s-cloak-rose"
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const pretty = key => key.split('_').map((w, i) =>
+  (i > 0 && ['and', 'of'].includes(w)) ? w : w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-    <footer class="disclaimer-footer">
-        <p>This is an unofficial, non-commercial fan-made budget calculator built strictly for personal planning purposes. This tool is not affiliated with or endorsed by Infold Games or Papergames. All tracking metrics, asset properties, and associated structural layouts belong entirely to their respective copyright holders.</p>
-    </footer>
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
 
-    <script>
-        const pageCategoryDirectory = {
-            "terras_treasure": { title: "Terra's Treasure", desc: "Exclusive limited-time event standard projection outfits." },
-            "miracle_packs": { title: "Miracle Studio Packs", desc: "Premium shop bundle packs and milestone planning selections." },
-            "clothing_registry": { title: "Clothing Registry", desc: "Standard permanent library options and workshop recipe sets." }
-        };
+function thumb(name) {
+  const t = el('span', 'thumb');
+  t.setAttribute('aria-hidden', 'true');
+  const img = new Image();
+  img.alt = '';
+  img.loading = 'lazy';
+  img.src = IMG_DIR + slug(name) + '.' + IMG_EXT;
+  img.onerror = () => img.remove();     // keep the placeholder box until the image exists
+  t.appendChild(img);
+  return t;
+}
 
-        const defaultDatabaseSeed = {
-            "terras_treasure": [
-                { id: 201, title: "Sunflower Chronicle Set", tier: 6 },
-                { id: 202, title: "Dreams' Dawn Gala", tier: 6 }
-            ],
-            "miracle_packs": [{ id: 301, title: "Heartward Bloom Set", tier: 5 }],
-            "clothing_registry": [{ id: 401, title: "Shroom-Friend Whispers", tier: 5 }]
-        };
+/* ---------- catalogue ---------- */
+function renderTabs() {
+  const tabs = $('tabs');
+  tabs.innerHTML = '';
+  Object.keys(data).forEach(key => {
+    const b = el('button', 'tab', pretty(key));
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', key === active);
+    b.onclick = () => { active = key; renderTabs(); renderMain(); };
+    tabs.appendChild(b);
+  });
+}
 
-        let centralItemDatabase = {};
-        let currentCategoryTabKey = "terras_treasure";
+function packCard(p) {
+  const card = el('article', 'pack');
+  const head = el('div', 'pack-head');
+  head.appendChild(el('h3', '', p.pack_name));
+  if (p.tier !== undefined) head.appendChild(el('p', 'pack-meta', 'Tier ' + p.tier));
+  card.appendChild(head);
 
-        function initApplicationDatabase() {
-            const savedRawData = localStorage.getItem('nikki_central_db');
-            if (savedRawData) {
-                try {
-                    centralItemDatabase = JSON.parse(savedRawData);
-                } catch(e) {
-                    centralItemDatabase = { ...defaultDatabaseSeed };
-                }
-            } else {
-                centralItemDatabase = { ...defaultDatabaseSeed };
-                saveDatabaseToStorage();
-            }
+  const ul = el('ul', 'items');
+  p.items_included.forEach((name, i) => {
+    const amount = p.item_amount[i];
+    const li = el('li');
+    const row = el('div', 'row');
+    row.appendChild(thumb(name));
+    row.appendChild(el('span', 'name', name));
+    row.appendChild(el('span', 'amt', amount === undefined ? '×?' : '×' + num(amount)));
+    li.appendChild(row);
+    ul.appendChild(li);
+  });
+  card.appendChild(ul);
 
-            document.getElementById('wallet-crystals').value = localStorage.getItem('nikki_wallet_crystals') || "0";
-            document.getElementById('wallet-pity').value = localStorage.getItem('nikki_wallet_pity') || "0";
+  if (p.gives_petal_note) card.appendChild(el('p', 'petal', '+ ' + num(p.petal_note_amount) + ' Petal Notes'));
 
-            buildSidebarNavigationLayout();
-            renderActiveShopCategory();
-        }
+  const foot = el('div', 'pack-foot');
+  foot.appendChild(el('span', 'price', money(p.price, p.currency_type)));
+  const add = el('button', 'add', 'Add to cart');
+  add.type = 'button';
+  add.onclick = () => {
+    cart[p.id] = (cart[p.id] || 0) + 1;
+    save(); updateCount(); renderCart();
+    add.textContent = 'Added (' + cart[p.id] + ')';
+    add.classList.add('added');
+    setTimeout(() => { add.textContent = 'Add to cart'; add.classList.remove('added'); }, 1200);
+  };
+  foot.appendChild(add);
+  card.appendChild(foot);
+  return card;
+}
 
-        function saveDatabaseToStorage() {
-            localStorage.setItem('nikki_central_db', JSON.stringify(centralItemDatabase));
-        }
+function renderMain() {
+  const main = $('main');
+  main.innerHTML = '';
+  Object.entries(data[active] || {}).forEach(([section, list]) => {
+    main.appendChild(el('h2', 'sub', section));
+    if (!list.length) { main.appendChild(el('p', 'empty', 'No packs added yet.')); return; }
+    const grid = el('div', 'grid');
+    list.forEach(p => grid.appendChild(packCard(p)));
+    main.appendChild(grid);
+  });
+}
 
-        function saveCurrenciesAndSync() {
-            const crystals = document.getElementById('wallet-crystals').value;
-            const pity = document.getElementById('wallet-pity').value;
-            localStorage.setItem('nikki_wallet_crystals', crystals);
-            localStorage.setItem('nikki_wallet_pity', pity);
-            renderActiveShopCategory();
-        }
+/* ---------- cart ---------- */
+function updateCount() {
+  $('cart-count').textContent = Object.values(cart).reduce((a, b) => a + b, 0);
+}
 
-        function buildSidebarNavigationLayout() {
-            const sidebar = document.getElementById('sidebar-container');
-            sidebar.innerHTML = '';
+function setQty(id, q) {
+  if (q <= 0) delete cart[id]; else cart[id] = q;
+  save(); updateCount(); renderCart();
+}
 
-            Object.keys(pageCategoryDirectory).forEach(key => {
-                const tabMeta = pageCategoryDirectory[key];
-                const tabNode = document.createElement('div');
-                tabNode.className = `sidebar-tab ${key === currentCategoryTabKey ? 'active' : ''}`;
-                tabNode.innerText = tabMeta.title;
-                
-                tabNode.addEventListener('click', () => {
-                    currentCategoryTabKey = key;
-                    buildSidebarNavigationLayout();
-                    renderActiveShopCategory();
-                });
-                sidebar.appendChild(tabNode);
-            });
-        }
+function renderCart() {
+  const body = $('cart-body'), foot = $('cart-foot');
+  body.innerHTML = ''; foot.innerHTML = '';
+  const ids = Object.keys(cart).filter(id => packs[id]);
 
-        function renderActiveShopCategory() {
-            const container = document.getElementById('shelf-container');
-            container.innerHTML = '';
+  if (!ids.length) {
+    body.appendChild(el('p', 'empty', 'Your cart is empty. Add a pack to see what it costs and what you get.'));
+    return;
+  }
 
-            document.getElementById('pane-category-title').innerText = pageCategoryDirectory[currentCategoryTabKey].title;
-            document.getElementById('pane-category-desc').innerText = pageCategoryDirectory[currentCategoryTabKey].desc;
+  body.appendChild(el('h3', '', 'Packs'));
+  const totals = {}, gained = {}; let petals = 0;
 
-            const currentBalance = parseInt(document.getElementById('wallet-crystals').value) || 0;
-            const currentPity = parseInt(document.getElementById('wallet-pity').value) || 0;
-            const searchQuery = document.getElementById('search-bar').value.toLowerCase().trim();
+  ids.forEach(id => {
+    const p = packs[id], q = cart[id];
+    totals[p.currency_type] = (totals[p.currency_type] || 0) + p.price * q;
+    if (p.gives_petal_note) petals += p.petal_note_amount * q;
+    p.items_included.forEach((name, i) => {
+      const a = p.item_amount[i];
+      if (a !== undefined) gained[name] = (gained[name] || 0) + a * q;
+    });
 
-            let rollingSumRequired = 0;
-            const activeItemsArray = centralItemDatabase[currentCategoryTabKey] || [];
-            let indexCounterForPity = 0;
+    const line = el('div', 'line');
+    const t = el('div', 't');
+    t.appendChild(el('strong', '', p.pack_name));
+    t.appendChild(el('small', '', money(p.price, p.currency_type) + ' each'));
+    line.appendChild(t);
 
-            activeItemsArray.forEach((item) => {
-                if (searchQuery && !item.title.toLowerCase().includes(searchQuery)) return;
+    const qty = el('div', 'qty');
+    const minus = el('button', '', '−'); minus.type = 'button'; minus.setAttribute('aria-label', 'Remove one ' + p.pack_name);
+    minus.onclick = () => setQty(id, q - 1);
+    const plus = el('button', '', '+'); plus.type = 'button'; plus.setAttribute('aria-label', 'Add one ' + p.pack_name);
+    plus.onclick = () => setQty(id, q + 1);
+    qty.append(minus, el('span', '', q), plus);
+    line.appendChild(qty);
+    line.appendChild(el('span', 'lp', money(p.price * q, p.currency_type)));
+    body.appendChild(line);
+  });
 
-                let basePityCost = (item.tier === 6) ? 75 : 45;
-                let computedPullRequirement = basePityCost;
+  body.appendChild(el('h3', '', "What you'll get"));
+  const ul = el('ul', 'get');
+  Object.entries(gained).forEach(([name, amt]) => {
+    const li = el('li'), row = el('div', 'row');
+    row.append(thumb(name), el('span', 'name', name), el('span', 'amt', '×' + num(amt)));
+    li.appendChild(row); ul.appendChild(li);
+  });
+  if (petals) {
+    const li = el('li'), row = el('div', 'row');
+    row.append(el('span', 'thumb'), el('span', 'name', 'Petal Notes'), el('span', 'amt', '×' + num(petals)));
+    li.appendChild(row); ul.appendChild(li);
+  }
+  body.appendChild(ul);
 
-                if (indexCounterForPity === 0) {
-                    computedPullRequirement = Math.max(0, basePityCost - currentPity);
-                }
+  Object.entries(totals).forEach(([cur, sum]) => {
+    const r = el('div', 'total');
+    r.append(el('span', '', ids.length && Object.keys(totals).length > 1 ? 'Total (' + cur + ')' : 'Total'), el('span', '', money(sum, cur)));
+    foot.appendChild(r);
+  });
+  const clear = el('button', 'clear', 'Empty cart');
+  clear.type = 'button';
+  clear.onclick = () => { cart = {}; save(); updateCount(); renderCart(); };
+  foot.appendChild(clear);
+}
 
-                rollingSumRequired += computedPullRequirement;
-                indexCounterForPity++;
+const dlg = $('cart');
+$('open-cart').onclick = () => { renderCart(); dlg.showModal(); };
+$('close-cart').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 
-                const itemBox = document.createElement('div');
-                itemBox.className = 'store-item-card';
-                itemBox.innerHTML = `
-                    <div class="item-visual-placeholder">
-                        <span class="tier-badge">${item.tier}★ Set</span>
-                    </div>
-                    <div class="item-info-row">
-                        <div class="item-title">${item.title}</div>
-                        <div class="item-cost-footer">
-                            <span>Cost: ${computedPullRequirement} pulls</span>
-                            <button class="delete-node-btn" onclick="deleteAssetItem('${currentCategoryTabKey}', ${item.id})">Remove</button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(itemBox);
-            });
-
-            const trueNetShortfall = Math.max(0, rollingSumRequired - currentBalance);
-            document.getElementById('summary-shortfall').innerText = `${trueNetShortfall} Pulls`;
-        }
-
-        function submitNewAssetItem() {
-            const nameInput = document.getElementById('asset-name');
-            const tierSelect = document.getElementById('asset-tier');
-            const categorySelect = document.getElementById('asset-category');
-
-            if (!nameInput.value.trim()) return;
-
-            const targetedCategoryKey = categorySelect.value;
-            
-            centralItemDatabase[targetedCategoryKey].push({
-                id: Date.now(),
-                title: nameInput.value.trim(),
-                tier: parseInt(tierSelect.value)
-            });
-
-            nameInput.value = '';
-            
-            saveDatabaseToStorage();
-            currentCategoryTabKey = targetedCategoryKey;
-            buildSidebarNavigationLayout();
-            renderActiveShopCategory();
-        }
-
-        function deleteAssetItem(categoryKey, targetId) {
-            centralItemDatabase[categoryKey] = centralItemDatabase[categoryKey].filter(item => item.id !== targetId);
-            saveDatabaseToStorage();
-            renderActiveShopCategory();
-        }
-
-        function exportDatabaseBackup() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(centralItemDatabase, null, 2));
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "nikki_planner_backup.json");
-            document.body.appendChild(downloadAnchorNode);
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-        }
-
-        initApplicationDatabase();
-    </script>
+/* ---------- load ---------- */
+fetch(DATA_URL)
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(json => {
+    data = json;
+    Object.entries(data).forEach(([col, sections]) =>
+      Object.entries(sections).forEach(([sec, list]) =>
+        list.forEach(p => { packs[p.id] = p; })));
+    active = Object.keys(data)[0];
+    renderTabs(); renderMain(); updateCount();
+  })
+  .catch(err => {
+    $('main').innerHTML = '';
+    $('main').appendChild(el('p', 'err', 'Could not load ' + DATA_URL + ' (' + err.message + '). If you opened this file directly, run it through a local server or GitHub Pages instead.'));
+  });
+</script>
 </body>
 </html>
