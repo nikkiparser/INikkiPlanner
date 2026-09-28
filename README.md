@@ -1,0 +1,1 @@
+This is an unofficial, non-commercial fan-made budget calculator built strictly for personal planning purposes. This tool is not affiliated with or endorsed by Infold Games or Papergames. All game names, tracking mechanics, and associated properties belong entirely to their respective copyright holders.
