@@ -272,6 +272,120 @@
             line-height: 1.5;
         }
     </style>
+    <script>
+    // State management array holding our list items
+    let storeShelfArray = [
+        { id: 101, title: "Sunflower Chronicle Set", tier: 6 },
+        { id: 102, title: "Dreams' Dawn Variant", tier: 6 },
+        { id: 103, title: "Heartward Bloom Set", tier: 5 },
+        { id: 104, title: "Shroom-Friend Whispers", tier: 5 }
+    ];
+
+    // Keep track of our currently selected shop category tab
+    // 0 = Terra's Treasure (6-Star), 1 = Miracle Studio Packs (5-Star), 2 = Projection Calc (All)
+    let currentActiveTabFilter = 0;
+
+    // Core calculator engine mapping filter updates back to visual layout cards
+    function runStoreEngine() {
+        const container = document.getElementById('shelf-container');
+        if (!container) return;
+        
+        container.innerHTML = '';
+
+        const currentBalance = parseInt(document.getElementById('wallet-crystals').value) || 0;
+        const currentPity = parseInt(document.getElementById('wallet-pity').value) || 0;
+        
+        let rollingSumRequired = 0;
+        let indexCounterForPity = 0;
+
+        storeShelfArray.forEach((item) => {
+            // Apply filtering logic matching our sidebar tab states
+            if (currentActiveTabFilter === 0 && item.tier !== 6) return; // 6-Star Only Tab
+            if (currentActiveTabFilter === 1 && item.tier !== 5) return; // 5-Star Only Tab
+
+            // Calculate gacha calculation values (6-Star sets are 75 pulls average, 5-Star are 45 pulls average)
+            let basePityCost = (item.tier === 6) ? 75 : 45;
+            let computedPullRequirement = basePityCost;
+            
+            // First displayed item automatically offsets based on current wallet pity pool
+            if (indexCounterForPity === 0) {
+                computedPullRequirement = Math.max(0, basePityCost - currentPity);
+            }
+
+            rollingSumRequired += computedPullRequirement;
+            indexCounterForPity++;
+
+            // Append item structure blocks into active display grids
+            const itemBox = document.createElement('div');
+            itemBox.className = 'store-item-card';
+            itemBox.innerHTML = `
+                <div class="item-visual-placeholder">
+                    <span class="tier-badge">${item.tier}★ Set</span>
+                </div>
+                <div class="item-info-row">
+                    <div class="item-title">${item.title}</div>
+                    <div class="item-cost-footer">
+                        <span>Cost: ${computedPullRequirement} pulls</span>
+                        <button class="delete-node-btn" onclick="dropShelfNode(${item.id})">Remove</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(itemBox);
+        });
+
+        // Compute deficit totals
+        const trueNetShortfall = Math.max(0, rollingSumRequired - currentBalance);
+        document.getElementById('summary-total-cost').innerText = rollingSumRequired;
+        document.getElementById('summary-shortfall').innerText = `${trueNetShortfall} Pulls`;
+    }
+
+    // Function adding dynamic event listeners onto sidebar menu tab fields
+    function initializeSidebarNavigation() {
+        const tabs = document.querySelectorAll('.sidebar-tab');
+        
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Clear active states off all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Set active target highlight
+                tab.classList.add('active');
+                
+                // Update tracking variable key and trigger redraw engine sweep
+                currentActiveTabFilter = index;
+                runStoreEngine();
+            });
+        });
+    }
+
+    // Form submission processing rules adding new entries into data models
+    function pushShelfNode() {
+        const titleInput = document.getElementById('add-outfit-name');
+        const tierSelect = document.getElementById('add-outfit-tier');
+
+        if (!titleInput.value.trim()) return;
+
+        storeShelfArray.push({
+            id: Date.now(),
+            title: titleInput.value.trim(),
+            tier: parseInt(tierSelect.value)
+        });
+
+        titleInput.value = '';
+        runStoreEngine();
+    }
+
+    // Item deletion control sequence rules
+    function dropShelfNode(targetId) {
+        storeShelfArray = storeShelfArray.filter(node => node.id !== targetId);
+        runStoreEngine();
+    }
+
+    // Execute application startup hooks once parsing concludes
+    initializeSidebarNavigation();
+    runStoreEngine();
+</script>
+
 </head>
 <body>
 
