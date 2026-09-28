@@ -4,19 +4,19 @@
       {
         "id": "210C01T01I01",
         "pack_name": "Longing Apart",
-        "items_included": ["Cherished Rose", "Lvl Boost", "In Sweet Dreams", "Love's Answer","Firefly Box","Energy Crystal","Shining Particles","Shiny Bubbles","Thread of Purity","Bling"],
-        "item_amount": [30,5,1,1,3,420,1710,2010,516000]
+        "items_included": ["Cherished Rose", "Lvl Boost", "In Sweet Dreams", "Love's Answer", "Firefly Box", "Energy Crystal", "Shining Particles", "Shiny Bubbles", "Thread of Purity", "Bling"],
+        "item_amount": [30, 5, 1, 1, 3, 420, 1710, 2010, 516000],
         "price": 4.99,
         "currency_type": "USD",
         "gives_petal_note": true,
         "petal_note_amount": 300,
         "tier": 6
-      }, 
+      },
       {
         "id": "210C01T01I02",
         "pack_name": "Love Everlasting",
-        "items_included": ["Cherished Rose", "Lvl Boost", "Momo's Cloak: Rose", "In Sweet Dreams","Thornwoven Rose","Love's Answer","Stargleam Box","Firefly Box","Energy Crystal","Shining Particles","Shiny Bubbles","Tread of Purity","Bling"],
-        "item_amount": [88,15,1,1,1,7200,1,1,9,1260,5130,6030,1500000]
+        "items_included": ["Cherished Rose", "Lvl Boost", "Momo's Cloak: Rose", "In Sweet Dreams", "Thornwoven Rose", "Love's Answer", "Stargleam Box", "Firefly Box", "Energy Crystal", "Shining Particles", "Shiny Bubbles", "Thread of Purity", "Bling"],
+        "item_amount": [88, 15, 1, 1, 1, 7200, 1, 1, 9, 1260, 5130, 6030, 1500000],
         "price": 12.99,
         "currency_type": "USD",
         "gives_petal_note": true,
