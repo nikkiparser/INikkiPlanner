@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pear-Pal Store Mirror - Budget Planner</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Pear-Pal Registry - Persistent Storage Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #1f1b24 0%, #2c2235 50%, #171c26 100%);
-            --shop-panel-bg: rgba(45, 38, 54, 0.65);
-            --sidebar-active: linear-gradient(90deg, rgba(155, 114, 170, 0.3) 0%, rgba(155, 114, 170, 0) 100%);
-            --primary-purple: #c59fe0;
-            --accent-gold: #f3cc80;
-            --text-light: #f3f0f5;
-            --text-muted: #a99fb3;
-            --card-border: 1px solid rgba(197, 159, 224, 0.15);
+            --bg-gradient: linear-gradient(135deg, #130f1a 0%, #1e1426 50%, #0a0d14 100%);
+            --shop-panel-bg: rgba(33, 27, 41, 0.75);
+            --sidebar-active: linear-gradient(90deg, rgba(170, 130, 200, 0.2) 0%, rgba(170, 130, 200, 0) 100%);
+            --primary-purple: #d1b3f0;
+            --accent-gold: #f7d594;
+            --text-light: #f5f2f7;
+            --text-muted: #9489a1;
+            --card-border: 1px solid rgba(209, 179, 240, 0.12);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,15 +30,13 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
         }
 
-        /* Top Bar Mirroring Currency Display */
         .top-currency-bar {
             width: 100%;
-            height: 60px;
-            background: rgba(20, 16, 26, 0.8);
-            border-bottom: 1px solid rgba(197, 159, 224, 0.2);
+            height: 65px;
+            background: rgba(10, 7, 15, 0.95);
+            border-bottom: 1px solid rgba(209, 179, 240, 0.18);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -53,16 +51,14 @@
             color: var(--primary-purple);
             font-size: 1.2rem;
             letter-spacing: 1px;
+            font-weight: 600;
         }
 
-        .currency-container {
-            display: flex;
-            gap: 1.5rem;
-        }
+        .currency-container { display: flex; gap: 1.5rem; }
 
         .currency-wallet-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(197, 159, 224, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(209, 179, 240, 0.2);
             border-radius: 20px;
             padding: 0.3rem 1rem;
             display: flex;
@@ -73,32 +69,25 @@
 
         .currency-wallet-box label { font-size: 0.75rem; color: var(--text-muted); }
         .currency-wallet-box input {
-            background: none;
-            border: none;
-            color: var(--accent-gold);
-            font-weight: 600;
-            width: 70px;
-            text-align: right;
-            outline: none;
+            background: none; border: none; color: var(--accent-gold);
+            font-weight: 600; width: 75px; text-align: right; outline: none;
         }
 
-        /* Split Screen Main Shop Layout */
         .shop-wrapper {
             display: grid;
-            grid-template-columns: 240px 1fr;
-            margin-top: 60px;
-            min-height: calc(100vh - 120px);
+            grid-template-columns: 260px 1fr;
+            margin-top: 65px;
+            min-height: calc(100vh - 65px);
             width: 100%;
         }
 
-        /* Left Side Gacha Navigation Tabs */
         .shop-sidebar {
-            background: rgba(25, 20, 31, 0.5);
-            border-right: 1px solid rgba(197, 159, 224, 0.1);
+            background: rgba(15, 11, 20, 0.7);
+            border-right: 1px solid rgba(209, 179, 240, 0.08);
             padding: 2rem 0;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
 
         .sidebar-tab {
@@ -107,8 +96,10 @@
             font-size: 0.95rem;
             cursor: pointer;
             border-left: 3px solid transparent;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
+
+        .sidebar-tab:hover { color: var(--text-light); }
 
         .sidebar-tab.active {
             color: var(--text-light);
@@ -117,7 +108,6 @@
             font-weight: 500;
         }
 
-        /* Right Side Content Showcase Pane */
         .shop-content-pane {
             padding: 2.5rem;
             display: flex;
@@ -128,18 +118,30 @@
         .pane-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(197, 159, 224, 0.1);
-            padding-bottom: 1rem;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(209, 179, 240, 0.08);
+            padding-bottom: 1.5rem;
         }
 
         .pane-header h2 {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             font-weight: 500;
+            margin-bottom: 0.25rem;
         }
 
-        /* Grid Framework for Outfit Boxes */
+        .search-filter-input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(209, 179, 240, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.85rem;
+            outline: none;
+            width: 200px;
+        }
+
         .store-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -153,276 +155,303 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
             transition: transform 0.2s, border-color 0.2s;
         }
 
         .store-item-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: var(--primary-purple);
         }
 
-        /* Simulated Graphic Display Window */
         .item-visual-placeholder {
-            height: 160px;
-            background: linear-gradient(180deg, rgba(40,32,50,0.3) 0%, rgba(20,15,25,0.7) 100%);
+            height: 130px;
+            background: linear-gradient(180deg, rgba(45,35,60,0.25) 0%, rgba(20,15,25,0.65) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
 
-        .item-visual-placeholder::before {
-            content: "✨";
-            font-size: 2rem;
-            opacity: 0.4;
-        }
-
         .tier-badge {
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 0.1rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: var(--accent-gold);
+            position: absolute; bottom: 8px; left: 8px;
+            background: rgba(0, 0, 0, 0.65); padding: 0.1rem 0.4rem;
+            border-radius: 4px; font-size: 0.75rem; color: var(--accent-gold);
         }
 
-        .item-info-row {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            flex-grow: 1;
-        }
-
-        .item-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
+        .item-info-row { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; }
+        .item-title { font-size: 0.95rem; font-weight: 500; }
+        
         .item-cost-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            font-weight: 600;
+            margin-top: auto; display: flex; justify-content: space-between;
+            align-items: center; font-size: 0.85rem; color: var(--accent-gold); font-weight: 600;
         }
 
-        .delete-node-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
+        .delete-node-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; }
         .delete-node-btn:hover { color: #ff6b6b; }
 
-        /* Builder Interaction Box Layout */
-        .calculator-dock {
-            background: rgba(20, 16, 26, 0.5);
+        .management-panel {
+            background: rgba(10, 7, 15, 0.3);
             border: var(--card-border);
             border-radius: 12px;
             padding: 1.5rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr auto;
-            gap: 1rem;
-            align-items: center;
+            margin-top: auto;
         }
 
-        .dock-input-field select, .dock-input-field input {
-            width: 100%;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(197, 159, 224, 0.2);
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            color: white;
-            font-family: inherit;
+        .panel-title {
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--primary-purple); margin-bottom: 1rem; font-weight: 600;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .dock-btn {
-            background: var(--primary-purple);
-            color: #1f1b24;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
+        .backup-btn {
+            background: none; border: 1px solid rgba(209, 179, 240, 0.3);
+            color: var(--text-muted); padding: 0.2rem 0.6rem; border-radius: 4px;
+            font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+        }
+        .backup-btn:hover { color: white; border-color: white; }
+
+        .form-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; }
+
+        .form-row input, .form-row select {
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(209, 179, 240, 0.2);
+            padding: 0.6rem 1rem; border-radius: 6px; color: white; font-family: inherit; outline: none;
         }
 
-        /* Bottom Sheet Legal Bar */
+        .form-row button {
+            background: var(--primary-purple); color: #130f1a; border: none;
+            padding: 0.6rem 1.5rem; font-weight: 600; border-radius: 6px; cursor: pointer;
+        }
+
         .disclaimer-footer {
-            background: rgba(15, 12, 20, 0.9);
-            padding: 1.5rem;
-            text-align: center;
-            border-top: 1px solid rgba(197, 159, 224, 0.1);
+            background: rgba(5, 4, 8, 0.95); padding: 1.5rem; text-align: center;
+            border-top: 1px solid rgba(209, 179, 240, 0.08); margin-top: auto;
         }
-
-        .disclaimer-footer p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            max-width: 900px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
+        .disclaimer-footer p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
     </style>
-    <script>
-    // State management array holding our list items
-    let storeShelfArray = [
-        { id: 101, title: "Sunflower Chronicle Set", tier: 6 },
-        { id: 102, title: "Dreams' Dawn Variant", tier: 6 },
-        { id: 103, title: "Heartward Bloom Set", tier: 5 },
-        { id: 104, title: "Shroom-Friend Whispers", tier: 5 }
-    ];
-
-    // Keep track of our currently selected shop category tab
-    // 0 = Terra's Treasure (6-Star), 1 = Miracle Studio Packs (5-Star), 2 = Projection Calc (All)
-    let currentActiveTabFilter = 0;
-
-    // Core calculator engine mapping filter updates back to visual layout cards
-    function runStoreEngine() {
-        const container = document.getElementById('shelf-container');
-        if (!container) return;
-        
-        container.innerHTML = '';
-
-        const currentBalance = parseInt(document.getElementById('wallet-crystals').value) || 0;
-        const currentPity = parseInt(document.getElementById('wallet-pity').value) || 0;
-        
-        let rollingSumRequired = 0;
-        let indexCounterForPity = 0;
-
-        storeShelfArray.forEach((item) => {
-            // Apply filtering logic matching our sidebar tab states
-            if (currentActiveTabFilter === 0 && item.tier !== 6) return; // 6-Star Only Tab
-            if (currentActiveTabFilter === 1 && item.tier !== 5) return; // 5-Star Only Tab
-
-            // Calculate gacha calculation values (6-Star sets are 75 pulls average, 5-Star are 45 pulls average)
-            let basePityCost = (item.tier === 6) ? 75 : 45;
-            let computedPullRequirement = basePityCost;
-            
-            // First displayed item automatically offsets based on current wallet pity pool
-            if (indexCounterForPity === 0) {
-                computedPullRequirement = Math.max(0, basePityCost - currentPity);
-            }
-
-            rollingSumRequired += computedPullRequirement;
-            indexCounterForPity++;
-
-            // Append item structure blocks into active display grids
-            const itemBox = document.createElement('div');
-            itemBox.className = 'store-item-card';
-            itemBox.innerHTML = `
-                <div class="item-visual-placeholder">
-                    <span class="tier-badge">${item.tier}★ Set</span>
-                </div>
-                <div class="item-info-row">
-                    <div class="item-title">${item.title}</div>
-                    <div class="item-cost-footer">
-                        <span>Cost: ${computedPullRequirement} pulls</span>
-                        <button class="delete-node-btn" onclick="dropShelfNode(${item.id})">Remove</button>
-                    </div>
-                </div>
-            `;
-            container.appendChild(itemBox);
-        });
-
-        // Compute deficit totals
-        const trueNetShortfall = Math.max(0, rollingSumRequired - currentBalance);
-        document.getElementById('summary-total-cost').innerText = rollingSumRequired;
-        document.getElementById('summary-shortfall').innerText = `${trueNetShortfall} Pulls`;
-    }
-
-    // Function adding dynamic event listeners onto sidebar menu tab fields
-    function initializeSidebarNavigation() {
-        const tabs = document.querySelectorAll('.sidebar-tab');
-        
-        tabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => {
-                // Clear active states off all tabs
-                tabs.forEach(t => t.classList.remove('active'));
-                
-                // Set active target highlight
-                tab.classList.add('active');
-                
-                // Update tracking variable key and trigger redraw engine sweep
-                currentActiveTabFilter = index;
-                runStoreEngine();
-            });
-        });
-    }
-
-    // Form submission processing rules adding new entries into data models
-    function pushShelfNode() {
-        const titleInput = document.getElementById('add-outfit-name');
-        const tierSelect = document.getElementById('add-outfit-tier');
-
-        if (!titleInput.value.trim()) return;
-
-        storeShelfArray.push({
-            id: Date.now(),
-            title: titleInput.value.trim(),
-            tier: parseInt(tierSelect.value)
-        });
-
-        titleInput.value = '';
-        runStoreEngine();
-    }
-
-    // Item deletion control sequence rules
-    function dropShelfNode(targetId) {
-        storeShelfArray = storeShelfArray.filter(node => node.id !== targetId);
-        runStoreEngine();
-    }
-
-    // Execute application startup hooks once parsing concludes
-    initializeSidebarNavigation();
-    runStoreEngine();
-</script>
-
 </head>
 <body>
 
-    <!-- Fixed Status Currency Topbar -->
     <div class="top-currency-bar">
-        <div class="menu-title">PEAR-PAL SHOP INTERFACE</div>
+        <div class="menu-title">PEAR-PAL STORAGE REGISTRY</div>
         <div class="currency-container">
             <div class="currency-wallet-box">
-                <label>Stellarites/Resonice:</label>
-                <input type="number" id="wallet-crystals" value="0" min="0" oninput="runStoreEngine()">
+                <label>Stellarites:</label>
+                <input type="number" id="wallet-crystals" value="0" min="0" oninput="saveCurrenciesAndSync()">
             </div>
             <div class="currency-wallet-box">
-                <label>Pity Pool Count:</label>
-                <input type="number" id="wallet-pity" value="0" min="0" max="89" oninput="runStoreEngine()">
+                <label>Pity Pool:</label>
+                <input type="number" id="wallet-pity" value="0" min="0" max="89" oninput="saveCurrenciesAndSync()">
             </div>
             <div class="currency-wallet-box" style="border-color: var(--accent-gold);">
-                <label style="color: var(--accent-gold);">Shortfall Plan:</label>
-                <span id="summary-shortfall" style="font-weight:600; color: var(--accent-gold); margin-left: 0.5rem;">0</span>
+                <label style="color: var(--accent-gold);">Deficit Shortfall:</label>
+                <span id="summary-shortfall" style="font-weight:600; color: var(--accent-gold);">0 Pulls</span>
             </div>
         </div>
     </div>
 
-    <!-- Main Dynamic Screen Partition -->
     <div class="shop-wrapper">
-        <div class="shop-sidebar">
-            <div class="sidebar-tab active">Terra's Treasure</div>
-            <div class="sidebar-tab">Miracle Studio Packs</div>
-            <div class="sidebar-tab">Gacha Projection Calc</div>
+        <div class="shop-sidebar" id="sidebar-container">
+            <!-- Tabs build dynamically -->
         </div>
 
         <div class="shop-content-pane">
             <div class="pane-header">
-                <h2>Styling Event Collection Wishlist</h2>
-                <div style="font-size: 0.9rem; color: var(--text-muted);">
-                    Target Total Cost: <span id="summary-total-cost" style="color: var(--primary-purple); font-weight:600;">0</span> Pulls
+                <div>
+                    <h2 id="pane-category-title">Loading Section...</h2>
+                    <p id="pane-category-desc" style="color: var(--text-muted); font-size: 0.9rem;"></p>
                 </div>
+                <input type="text" id="search-bar" class="search-filter-input" placeholder="Search entries..." oninput="renderActiveShopCategory()">
             </div>
 
-            <!-- Dynamic Store Shelf Items Display Grid -->
             <div class="store-grid" id="shelf-container">
+                <!-- Data maps here -->
+            </div>
+
+            <div class="management-panel">
+                <div class="panel-title">
+                    <span>Register New Library Entry</span>
+                    <button class="backup-btn" onclick="exportDatabaseBackup()">Export JSON Data</button>
+                </div>
+                <div class="form-row">
+                    <input type="text" id="asset-name" placeholder="Item Name (e.g., Starry Nocturne)">
+                    <select id="asset-tier">
+                        <option value="6">6★ Splendor Suit</option>
+                        <option value="5">5★ Standard Suit</option>
+                    </select>
+                    <select id="asset-category">
+                        <option value="terras_treasure">Terra's Treasure</option>
+                        <option value="miracle_packs">Miracle Packs</option>
+                        <option value="clothing_registry">Clothing Registry</option>
+                    </select>
+                    <button onclick="submitNewAssetItem()">Save to Database</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="disclaimer-footer">
+        <p>This is an unofficial, non-commercial fan-made budget calculator built strictly for personal planning purposes. This tool is not affiliated with or endorsed by Infold Games or Papergames. All tracking metrics, asset properties, and associated structural layouts belong entirely to their respective copyright holders.</p>
+    </footer>
+
+    <script>
+        const pageCategoryDirectory = {
+            "terras_treasure": { title: "Terra's Treasure", desc: "Exclusive limited-time event standard projection outfits." },
+            "miracle_packs": { title: "Miracle Studio Packs", desc: "Premium shop bundle packs and milestone planning selections." },
+            "clothing_registry": { title: "Clothing Registry", desc: "Standard permanent library options and workshop recipe sets." }
+        };
+
+        const defaultDatabaseSeed = {
+            "terras_treasure": [
+                { id: 201, title: "Sunflower Chronicle Set", tier: 6 },
+                { id: 202, title: "Dreams' Dawn Gala", tier: 6 }
+            ],
+            "miracle_packs": [{ id: 301, title: "Heartward Bloom Set", tier: 5 }],
+            "clothing_registry": [{ id: 401, title: "Shroom-Friend Whispers", tier: 5 }]
+        };
+
+        let centralItemDatabase = {};
+        let currentCategoryTabKey = "terras_treasure";
+
+        function initApplicationDatabase() {
+            const savedRawData = localStorage.getItem('nikki_central_db');
+            if (savedRawData) {
+                try {
+                    centralItemDatabase = JSON.parse(savedRawData);
+                } catch(e) {
+                    centralItemDatabase = { ...defaultDatabaseSeed };
+                }
+            } else {
+                centralItemDatabase = { ...defaultDatabaseSeed };
+                saveDatabaseToStorage();
+            }
+
+            document.getElementById('wallet-crystals').value = localStorage.getItem('nikki_wallet_crystals') || "0";
+            document.getElementById('wallet-pity').value = localStorage.getItem('nikki_wallet_pity') || "0";
+
+            buildSidebarNavigationLayout();
+            renderActiveShopCategory();
+        }
+
+        function saveDatabaseToStorage() {
+            localStorage.setItem('nikki_central_db', JSON.stringify(centralItemDatabase));
+        }
+
+        function saveCurrenciesAndSync() {
+            const crystals = document.getElementById('wallet-crystals').value;
+            const pity = document.getElementById('wallet-pity').value;
+            localStorage.setItem('nikki_wallet_crystals', crystals);
+            localStorage.setItem('nikki_wallet_pity', pity);
+            renderActiveShopCategory();
+        }
+
+        function buildSidebarNavigationLayout() {
+            const sidebar = document.getElementById('sidebar-container');
+            sidebar.innerHTML = '';
+
+            Object.keys(pageCategoryDirectory).forEach(key => {
+                const tabMeta = pageCategoryDirectory[key];
+                const tabNode = document.createElement('div');
+                tabNode.className = `sidebar-tab ${key === currentCategoryTabKey ? 'active' : ''}`;
+                tabNode.innerText = tabMeta.title;
+                
+                tabNode.addEventListener('click', () => {
+                    currentCategoryTabKey = key;
+                    buildSidebarNavigationLayout();
+                    renderActiveShopCategory();
+                });
+                sidebar.appendChild(tabNode);
+            });
+        }
+
+        function renderActiveShopCategory() {
+            const container = document.getElementById('shelf-container');
+            container.innerHTML = '';
+
+            document.getElementById('pane-category-title').innerText = pageCategoryDirectory[currentCategoryTabKey].title;
+            document.getElementById('pane-category-desc').innerText = pageCategoryDirectory[currentCategoryTabKey].desc;
+
+            const currentBalance = parseInt(document.getElementById('wallet-crystals').value) || 0;
+            const currentPity = parseInt(document.getElementById('wallet-pity').value) || 0;
+            const searchQuery = document.getElementById('search-bar').value.toLowerCase().trim();
+
+            let rollingSumRequired = 0;
+            const activeItemsArray = centralItemDatabase[currentCategoryTabKey] || [];
+            let indexCounterForPity = 0;
+
+            activeItemsArray.forEach((item) => {
+                if (searchQuery && !item.title.toLowerCase().includes(searchQuery)) return;
+
+                let basePityCost = (item.tier === 6) ? 75 : 45;
+                let computedPullRequirement = basePityCost;
+
+                if (indexCounterForPity === 0) {
+                    computedPullRequirement = Math.max(0, basePityCost - currentPity);
+                }
+
+                rollingSumRequired += computedPullRequirement;
+                indexCounterForPity++;
+
+                const itemBox = document.createElement('div');
+                itemBox.className = 'store-item-card';
+                itemBox.innerHTML = `
+                    <div class="item-visual-placeholder">
+                        <span class="tier-badge">${item.tier}★ Set</span>
+                    </div>
+                    <div class="item-info-row">
+                        <div class="item-title">${item.title}</div>
+                        <div class="item-cost-footer">
+                            <span>Cost: ${computedPullRequirement} pulls</span>
+                            <button class="delete-node-btn" onclick="deleteAssetItem('${currentCategoryTabKey}', ${item.id})">Remove</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(itemBox);
+            });
+
+            const trueNetShortfall = Math.max(0, rollingSumRequired - currentBalance);
+            document.getElementById('summary-shortfall').innerText = `${trueNetShortfall} Pulls`;
+        }
+
+        function submitNewAssetItem() {
+            const nameInput = document.getElementById('asset-name');
+            const tierSelect = document.getElementById('asset-tier');
+            const categorySelect = document.getElementById('asset-category');
+
+            if (!nameInput.value.trim()) return;
+
+            const targetedCategoryKey = categorySelect.value;
+            
+            centralItemDatabase[targetedCategoryKey].push({
+                id: Date.now(),
+                title: nameInput.value.trim(),
+                tier: parseInt(tierSelect.value)
+            });
+
+            nameInput.value = '';
+            
+            saveDatabaseToStorage();
+            currentCategoryTabKey = targetedCategoryKey;
+            buildSidebarNavigationLayout();
+            renderActiveShopCategory();
+        }
+
+        function deleteAssetItem(categoryKey, targetId) {
+            centralItemDatabase[categoryKey] = centralItemDatabase[categoryKey].filter(item => item.id !== targetId);
+            saveDatabaseToStorage();
+            renderActiveShopCategory();
+        }
+
+        function exportDatabaseBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(centralItemDatabase, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "nikki_planner_backup.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        initApplicationDatabase();
+    </script>
+</body>
+</html>
