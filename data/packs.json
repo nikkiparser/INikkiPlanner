@@ -76,12 +76,13 @@
     ],
     "Wild Bird Flightpath": [],
     "Star-Following Quests": [],
-    "Love's Keepsake": [
-      {
+    "Love's Keepsake": {
+      "Love's Keepsake": [
+      { 
         "id": "210C01T04I01",
-        "pack_name": "",
-        "items_included": "Swirl Bubbles: Sweet",
-        "item_amount": 10,
+        "pack_name": "Swirl Bubbles: Sweet",
+          "items_included": ["Swirl Bubbles: Sweet"],
+          "item_amount": [10]
         "price": 20,
         "currency_type": "Love's Answer",
         "gives_petal_note": false,
@@ -90,9 +91,9 @@
       },
       {
         "id": "210C01T04I02",
-        "pack_name": "",
-        "items_included": "Swirl Bubbles: Fresh",
-        "item_amount": 10,
+        "pack_name": "Swirl Bubbles: Fresh",
+          "items_included": ["Swirl Bubbles: Fresh"],
+          "item_amount": [10]
         "price": 20,
         "currency_type": "Love's Answer",
         "gives_petal_note": false,
