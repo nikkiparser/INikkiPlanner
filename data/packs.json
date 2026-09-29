@@ -76,31 +76,30 @@
     ],
     "Wild Bird Flightpath": [],
     "Star-Following Quests": [],
-    "Love's Keepsake": {
-      "Love's Keepsake": [
-      { 
-        "id": "210C01T04I01",
-        "pack_name": "Swirl Bubbles: Sweet",
-          "items_included": ["Swirl Bubbles: Sweet"],
-          "item_amount": [10]
-        "price": 20,
-        "currency_type": "Love's Answer",
-        "gives_petal_note": false,
-        "petal_note_amount": 0,
-        "pack_limit": 30
-      },
-      {
-        "id": "210C01T04I02",
-        "pack_name": "Swirl Bubbles: Fresh",
-          "items_included": ["Swirl Bubbles: Fresh"],
-          "item_amount": [10]
-        "price": 20,
-        "currency_type": "Love's Answer",
-        "gives_petal_note": false,
-        "petal_note_amount": 0,
-        "pack_limit": 30
-      }
-    ]
+"Love's Keepsake": [
+  {
+    "id": "210C01T04I01",
+    "pack_name": "Swirl Bubbles: Sweet",
+    "items_included": ["Swirl Bubbles: Sweet"],
+    "item_amount": [10],
+    "price": 20,
+    "currency_type": "Love's Answer",
+    "gives_petal_note": false,
+    "petal_note_amount": 0,
+    "pack_limit": 30
+  },
+  {
+    "id": "210C01T04I02",
+    "pack_name": "Swirl Bubbles: Fresh",
+    "items_included": ["Swirl Bubbles: Fresh"],
+    "item_amount": [10],
+    "price": 20,
+    "currency_type": "Love's Answer",
+    "gives_petal_note": false,
+    "petal_note_amount": 0,
+    "pack_limit": 30
+  }
+]
   },
   "autumn_dreamweave": {
     "Chestnut Verse": [],
