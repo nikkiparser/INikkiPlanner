@@ -231,12 +231,39 @@
             color: var(--accent-red); font-weight: 600;
         }
 
+        /* ---- pack limit ---- */
+        .limit-line {
+            margin: 0 1rem 0.5rem; font-size: 0.75rem; color: var(--text-muted);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .limit-line .limit-val { font-weight: 600; color: var(--primary-dark); font-variant-numeric: tabular-nums; }
+        .limit-line.maxed .limit-val { color: var(--accent-red); }
+
         .item-cost-footer {
             margin-top: auto; display: flex; justify-content: space-between;
-            align-items: center; padding: 0.8rem 1rem;
+            align-items: center; gap: 0.5rem; padding: 0.8rem 1rem;
             border-top: 1px solid rgba(163, 194, 240, 0.25);
             font-size: 0.95rem; color: var(--accent-gold); font-weight: 600;
         }
+
+        .card-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .stepper { display: flex; align-items: center; }
+        .stepper button {
+            width: 1.6rem; height: 1.9rem; cursor: pointer;
+            background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(163, 194, 240, 0.5);
+            color: var(--primary-dark); font-weight: 600;
+        }
+        .stepper button:first-child { border-radius: 6px 0 0 6px; }
+        .stepper button:last-child  { border-radius: 0 6px 6px 0; }
+        .stepper button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .stepper input {
+            width: 2.6rem; height: 1.9rem; text-align: center; font-family: inherit; font-weight: 600;
+            color: var(--primary-dark); background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(163, 194, 240, 0.5); border-left: none; border-right: none;
+            -moz-appearance: textfield; appearance: textfield;
+        }
+        .stepper input::-webkit-outer-spin-button,
+        .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         .btn-main {
             background: var(--accent-blue); color: var(--primary-dark); border: none;
@@ -244,6 +271,7 @@
             font-size: 0.8rem; transition: filter 0.2s;
         }
         .btn-main:hover { filter: brightness(0.95); }
+        .btn-main:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* ---- cart ---- */
         .cart-fab {
@@ -292,6 +320,7 @@
             width: 1.7rem; height: 1.7rem; border-radius: 6px; cursor: pointer;
             background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(163, 194, 240, 0.5); color: var(--primary-dark);
         }
+        .qty button:disabled { opacity: 0.4; cursor: not-allowed; }
         .qty span { min-width: 1.4rem; text-align: center; }
         .line-price { min-width: 4.5rem; text-align: right; font-weight: 600; color: var(--accent-gold); }
         .get-list { list-style: none; }
@@ -507,6 +536,12 @@
             return null;
         }
 
+        // pack_limit from the JSON; missing or 0 = no limit
+        function packLimit(p) {
+            const n = Number(p.pack_limit);
+            return Number.isFinite(n) && n > 0 ? n : Infinity;
+        }
+
         /* ---------- startup ---------- */
         function loadWallet() {
             WALLET_IDS.forEach(id => { $('wallet-' + id).value = localStorage.getItem(walletKey(id)) || "0"; });
@@ -577,6 +612,7 @@
         /* ---------- packs ---------- */
         function buildPackCard(p) {
             const card = el('article', 'store-item-card');
+            const limit = packLimit(p);
 
             const head = el('div', 'pack-head');
             head.appendChild(el('div', 'pack-title', p.pack_name));
@@ -598,18 +634,66 @@
 
             if (p.gives_petal_note) card.appendChild(el('div', 'petal-line', '+ ' + fmt(p.petal_note_amount) + ' Petal Notes'));
 
+            // limit counter: in cart / limit
+            const limitLine = el('div', 'limit-line');
+            limitLine.appendChild(el('span', '', 'Pack limit'));
+            const limitVal = el('span', 'limit-val');
+            limitLine.appendChild(limitVal);
+            card.appendChild(limitLine);
+
             const foot = el('div', 'item-cost-footer');
             foot.appendChild(el('span', '', money(p.price, p.currency_type)));
-            const add = el('button', 'btn-main', 'Add to cart');
-            add.type = 'button';
+
+            const actions = el('div', 'card-actions');
+            const stepper = el('div', 'stepper');
+            const minus = el('button', '', '−'); minus.type = 'button';
+            minus.setAttribute('aria-label', 'Decrease amount');
+            const qtyInput = el('input'); qtyInput.type = 'number'; qtyInput.min = 1; qtyInput.value = 1;
+            qtyInput.setAttribute('aria-label', 'Amount to add');
+            const plus = el('button', '', '+'); plus.type = 'button';
+            plus.setAttribute('aria-label', 'Increase amount');
+            stepper.append(minus, qtyInput, plus);
+
+            const add = el('button', 'btn-main', 'Add to cart'); add.type = 'button';
+            actions.append(stepper, add);
+            foot.appendChild(actions);
+            card.appendChild(foot);
+
+            const inCart = () => cart[p.id] || 0;
+            const remaining = () => limit - inCart();
+
+            function refresh() {
+                const left = remaining();
+                limitVal.textContent = inCart() + '/' + (limit === Infinity ? '∞' : limit);
+                limitLine.classList.toggle('maxed', left <= 0);
+
+                let q = Math.floor(Number(qtyInput.value)) || 1;
+                q = Math.max(1, Math.min(q, left > 0 ? left : 1));
+                qtyInput.value = q;
+                qtyInput.max = left > 0 ? left : 1;
+
+                minus.disabled = q <= 1;
+                plus.disabled = q >= left;
+                add.disabled = left <= 0;
+            }
+
+            minus.addEventListener('click', () => { qtyInput.value = Number(qtyInput.value) - 1; refresh(); });
+            plus.addEventListener('click',  () => { qtyInput.value = Number(qtyInput.value) + 1; refresh(); });
+            qtyInput.addEventListener('input', refresh);
+            qtyInput.addEventListener('change', refresh);
+
             add.addEventListener('click', () => {
-                cart[p.id] = (cart[p.id] || 0) + 1;
+                const q = Math.min(Math.floor(Number(qtyInput.value)) || 1, remaining());
+                if (q <= 0) return;
+                cart[p.id] = inCart() + q;
                 saveCart(); updateCartCount();
-                add.textContent = 'Added (' + cart[p.id] + ')';
+                qtyInput.value = 1;
+                refresh();
+                add.textContent = 'Added (' + inCart() + ')';
                 setTimeout(() => { add.textContent = 'Add to cart'; }, 1200);
             });
-            foot.appendChild(add);
-            card.appendChild(foot);
+
+            refresh();
             return card;
         }
 
@@ -631,8 +715,10 @@
         }
 
         function setQty(id, q) {
+            const p = packsById[id];
+            if (p) q = Math.min(q, packLimit(p));
             if (q <= 0) delete cart[id]; else cart[id] = q;
-            saveCart(); updateCartCount(); renderCart();
+            saveCart(); updateCartCount(); renderCart(); renderActiveShopCategory();
         }
 
         function renderCart() {
@@ -670,6 +756,7 @@
                 minus.addEventListener('click', () => setQty(id, q - 1));
                 const plus = el('button', '', '+'); plus.type = 'button';
                 plus.setAttribute('aria-label', 'Add one ' + p.pack_name);
+                plus.disabled = q >= packLimit(p);
                 plus.addEventListener('click', () => setQty(id, q + 1));
                 qty.append(minus, el('span', '', q), plus);
                 line.appendChild(qty);
@@ -709,7 +796,7 @@
 
             const clear = el('button', 'link-btn', 'Empty cart');
             clear.type = 'button';
-            clear.addEventListener('click', () => { cart = {}; saveCart(); updateCartCount(); renderCart(); });
+            clear.addEventListener('click', () => { cart = {}; saveCart(); updateCartCount(); renderCart(); renderActiveShopCategory(); });
             foot.appendChild(clear);
         }
 
