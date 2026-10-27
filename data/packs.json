@@ -1,16 +1,18 @@
 {
-  "TieredPurchases": {
+  "SeasonTimedEvents": {
     "Snowfall's Chapter": [
       {
         "id": "211TPT00",
         "pack_name": "Free",
-        "items_included": [
-          "Energy Crystal"
-        ],
-        "item_amount": [
-          1
-        ],
-        "price": 0.00,
+          "items_included": 
+          [
+            "Energy Crystal"
+          ],
+          "item_amount": 
+          [
+            1
+          ],
+        "price": "0.00",
         "currency_type": "USD",
         "gives_seasoncurr": false,
         "seasoncurr_amount": 0,
@@ -19,16 +21,18 @@
       {
         "id": "211TPT01",
         "pack_name": "1st Purchase",
-        "items_included": [
-          "Revelation Crystal",
-          "4 Star Dye", 
-          "Shining Particles"
-        ],
-        "item_amount": [
-          1,
-          10,
-          5 
-        ],
+        "items_included": 
+          [
+            "Revelation Crystal",
+            "4 Star Dye", 
+            "Shining Particles"
+          ],
+        "item_amount": 
+          [
+            1,
+            10,
+            5 
+          ],
         "price": "00.99",
         "currency_type": "USD",
         "gives_seasoncurr": true,
@@ -54,7 +58,7 @@
           10,
           1 
         ],
-        "price": 1.99,
+        "price": "1.99",
         "currency_type": "USD",
         "gives_seasoncurr": true,
         "seasoncurr_amount": 200,
@@ -106,7 +110,7 @@
           15,
           1 
         ],
-        "price": 6.99,
+        "price": "6.99",
         "currency_type": "USD",
         "gives_seasoncurr": true,
         "seasoncurr_amount": 700,
@@ -131,7 +135,7 @@
           120,
           3 
         ],
-        "price": 8.99,
+        "price": "8.99",
         "currency_type": "USD",
         "gives_seasoncurr": true,
         "seasoncurr_amount": 900,
@@ -144,8 +148,12 @@
 
     
   "autumn_dreamweave": {
-    "Chestnut Verse": [],
-    "Autumn Garden Afternoon": []
+    "Chestnut Verse": [
+      
+    ],
+    "Autumn Garden Afternoon": [
+      
+    ]
   },
   "the_roses_heart": {
     "The Rose's Feelings": []
