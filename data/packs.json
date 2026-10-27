@@ -29,7 +29,7 @@
           10,
           5 
         ],
-        "price": 00.99,
+        "price": "00.99",
         "currency_type": "USD",
         "gives_seasoncurr": true,
         "seasoncurr_amount": 60,
@@ -81,7 +81,7 @@
           12,
           1 
         ],
-        "price": 2.99,
+        "price": "2.99",
         "currency_type": "USD",
         "gives_seasoncurr": true,
         "seasoncurr_amount": 300,
