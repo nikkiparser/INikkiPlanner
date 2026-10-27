@@ -225,7 +225,7 @@
         }
         .item-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 
-        .petal-line {
+        .seasoncurr-line {
             margin: 0 1rem 0.75rem; padding: 0.3rem 0.6rem; border-radius: 8px;
             background: rgba(255, 255, 255, 0.6); font-size: 0.78rem;
             color: var(--accent-red); font-weight: 600;
@@ -390,8 +390,8 @@
                 <input type="number" id="wallet-loves-answer" value="0" min="0" oninput="saveCurrenciesAndSync()">
             </div>
             <div class="currency-wallet-box">
-                <label for="wallet-petal-note">Petal Notes:</label>
-                <input type="number" id="wallet-petal-note" value="0" min="0" oninput="saveCurrenciesAndSync()">
+                <label for="wallet-seasoncurr-note">seasoncurr Notes:</label>
+                <input type="number" id="wallet-seasoncurr-note" value="0" min="0" oninput="saveCurrenciesAndSync()">
             </div>
             <div class="currency-wallet-box">
                 <label for="wallet-surging">Surging Ebb:</label>
@@ -485,7 +485,7 @@
             }
         };
 
-        const WALLET_IDS = ['usd', 'loves-answer', 'petal-note', 'stellarite', 'revelation', 'diamonds', 'epiphany', 'resonite', 'surging', 'tranquility'];
+        const WALLET_IDS = ['usd', 'loves-answer', 'seasoncurr-note', 'stellarite', 'revelation', 'diamonds', 'epiphany', 'resonite', 'surging', 'tranquility'];
         const walletKey = id => 'nikki_wallet_' + id.replace(/-/g, '_');
 
         let centralItemDatabase = {};
@@ -631,7 +631,7 @@
             });
             card.appendChild(ul);
 
-            if (p.gives_petal_note) card.appendChild(el('div', 'petal-line', '+ ' + fmt(p.petal_note_amount) + ' Petal Notes'));
+            if (p.gives_seasoncurr_note) card.appendChild(el('div', 'seasoncurr-line', '+ ' + fmt(p.seasoncurr_note_amount) + ' seasoncurr Notes'));
 
             // limit counter: in cart / limit
             const limitLine = el('div', 'limit-line');
@@ -732,12 +732,12 @@
 
             body.appendChild(el('h3', '', 'Packs'));
             const totals = {}, gained = {};
-            let petals = 0;
+            let seasoncurrs = 0;
 
             ids.forEach(id => {
                 const p = packsById[id], q = cart[id];
                 totals[p.currency_type] = (totals[p.currency_type] || 0) + p.price * q;
-                if (p.gives_petal_note) petals += p.petal_note_amount * q;
+                if (p.gives_seasoncurr_note) seasoncurrs += p.seasoncurr_note_amount * q;
                 p.items_included.forEach((name, i) => {
                     const a = p.item_amount[i];
                     if (a !== undefined) gained[name] = (gained[name] || 0) + a * q;
@@ -770,9 +770,9 @@
                 row.append(imgSlot(name), el('span', 'nm', name), el('span', 'amt', '×' + fmt(amt)));
                 li.appendChild(row); ul.appendChild(li);
             });
-            if (petals) {
+            if (seasoncurrs) {
                 const li = el('li'), row = el('div', 'item-row');
-                row.append(el('span', 'item-img'), el('span', 'nm', 'Petal Notes'), el('span', 'amt', '×' + fmt(petals)));
+                row.append(el('span', 'item-img'), el('span', 'nm', 'seasoncurr Notes'), el('span', 'amt', '×' + fmt(seasoncurrs)));
                 li.appendChild(row); ul.appendChild(li);
             }
             body.appendChild(ul);
