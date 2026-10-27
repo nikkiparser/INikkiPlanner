@@ -1,106 +1,147 @@
 {
-  "he_and_rose": {
-    "Star Journey Treasure": [
+  "TieredPurchases": {
+    "Snowfall's Chapter": [
       {
-        "id": "210C01T01I01",
-        "pack_name": "Longing Apart",
+        "id": "211TPT00",
+        "pack_name": "Free",
         "items_included": [
-          "Cherished Rose",
-          "Lvl Boost",
-          "In Sweet Dreams",
-          "Love's Answer",
-          "Firefly Box",
-          "Energy Crystal",
-          "Shining Particles",
-          "Shiny Bubbles",
-          "Thread of Purity",
-          "Bling"
+          "Energy Crystal"
         ],
         "item_amount": [
-          30,
-          5,
-          1,
-          2800,
-          1,
-          3,
-          420,
-          1710,
-          2010,
-          516000
+          1
         ],
-        "price": 4.99,
+        "price": 0.00,
         "currency_type": "USD",
-        "gives_petal_note": true,
-        "petal_note_amount": 300,
+        "gives_seasoncurr": false,
+        "seasoncurr_amount": 0,
         "pack_limit": 1
       },
       {
-        "id": "210C01T01I02",
-        "pack_name": "Love Everlasting",
+        "id": "211TPT01",
+        "pack_name": "1st Purchase",
         "items_included": [
-          "Cherished Rose",
-          "Lvl Boost",
-          "Momo's Cloak: Rose",
-          "In Sweet Dreams",
-          "Thornwoven Rose",
-          "Love's Answer",
-          "Stargleam Box",
-          "Firefly Box",
-          "Energy Crystal",
-          "Shining Particles",
-          "Shiny Bubbles",
-          "Thread of Purity",
-          "Bling"
+          "Revelation Crystal",
+          "4 Star Dye", 
+          "Shining Particles"
         ],
         "item_amount": [
-          88,
-          15,
+          1,
+          10,
+          5 
+        ],
+        "price": 00.99,
+        "currency_type": "USD",
+        "gives_seasoncurr": true,
+        "seasoncurr_amount": 60,
+        "pack_limit": 1
+      },
+      {
+        "id": "211TPT02",
+        "pack_name": "2nd Purchase",
+        "items_included": [
+          "Outerwear: Vibrant Feast, Feast Overture",
+          "Revelation Crystal",
+          "Resonite Crystal",
+          "5 Star Dye",
+          "Shining Particles",
+          "Energy Cyrstal"
+        ],
+        "item_amount": [
           1,
           1,
           1,
-          7200,
+          6,
+          10,
+          1 
+        ],
+        "price": 1.99,
+        "currency_type": "USD",
+        "gives_seasoncurr": true,
+        "seasoncurr_amount": 200,
+        "pack_limit": 1
+      },
+      {
+        "id": "211TPT03",
+        "pack_name": "3rd Purchase",
+        "items_included": [
+          "Headwear: Nutcracker March",
+          "Momo Cloak: King of Candy",
+          "Revelation Crystal",
+          "Resonite Crystal",
+          "5 Star Dye",
+          "Shining Particles",
+          "Energy Cyrstal"
+        ],
+        "item_amount": [
+          1,
+          1,
           1,
           1,
           9,
-          1260,
-          5130,
-          6030,
-          1500000
+          12,
+          1 
         ],
-        "price": 12.99,
+        "price": 2.99,
         "currency_type": "USD",
-        "gives_petal_note": true,
-        "petal_note_amount": 880,
+        "gives_seasoncurr": true,
+        "seasoncurr_amount": 300,
+        "pack_limit": 1
+      },
+      {
+        "id": "211TPT04",
+        "pack_name": "4th Purchase",
+        "items_included": [
+          "Makeup: Starwish Fairytale", 
+          "Revelation Crystal",
+          "Resonite Crystal",
+          "5 Star Dye",
+          "Shining Particles",
+          "Energy Cyrstal"
+        ],
+        "item_amount": [
+          1,
+          2,
+          1,
+          12,
+          15,
+          1 
+        ],
+        "price": 6.99,
+        "currency_type": "USD",
+        "gives_seasoncurr": true,
+        "seasoncurr_amount": 700,
+        "pack_limit": 1
+      },
+      {
+        "id": "211TPT05",
+        "pack_name": "5th Purchase",
+        "items_included": [
+          "Decoration: Snowlit Shop Window", 
+          "Revelation Crystal",
+          "Resonite Crystal",
+          "5 Star Dye",
+          "Shining Particles",
+          "Energy Cyrstal"
+        ],
+        "item_amount": [
+          1,
+          6,
+          2,
+          36,
+          120,
+          3 
+        ],
+        "price": 8.99,
+        "currency_type": "USD",
+        "gives_seasoncurr": true,
+        "seasoncurr_amount": 900,
         "pack_limit": 1
       }
     ],
-    "Wild Bird Flightpath": [],
-    "Star-Following Quests": [],
-"Love's Keepsake": [
-  {
-    "id": "210C01T04I01",
-    "pack_name": "Swirl Bubbles: Sweet",
-    "items_included": ["Swirl Bubbles: Sweet"],
-    "item_amount": [10],
-    "price": 20,
-    "currency_type": "Love's Answer",
-    "gives_petal_note": false,
-    "petal_note_amount": 0,
-    "pack_limit": 30
-  },
-  {
-    "id": "210C01T04I02",
-    "pack_name": "Swirl Bubbles: Fresh",
-    "items_included": ["Swirl Bubbles: Fresh"],
-    "item_amount": [10],
-    "price": 20,
-    "currency_type": "Love's Answer",
-    "gives_petal_note": false,
-    "petal_note_amount": 0,
-    "pack_limit": 30
-  }
-]
-  },
+
+
+
+    
   "autumn_dreamweave": {
     "Chestnut Verse": [],
     "Autumn Garden Afternoon": []
