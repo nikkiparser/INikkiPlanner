@@ -4,6 +4,7 @@
       {
         "id": "211TPT00",
         "pack_name": "Free",
+        "pack_image": "images/snowfallchapter00.jpg",
           "items_included": 
           [
             "Energy Crystal"
@@ -21,6 +22,7 @@
       {
         "id": "211TPT01",
         "pack_name": "1st Purchase",
+        "pack_image": "images/snowfallchapter01.jpg",
         "items_included": 
           [
             "Revelation Crystal",
@@ -42,6 +44,7 @@
       {
         "id": "211TPT02",
         "pack_name": "2nd Purchase",
+        "pack_image": "images/snowfallchapter02.jpg",
         "items_included": [
           "Outerwear: Vibrant Feast, Feast Overture",
           "Revelation Crystal",
@@ -67,6 +70,7 @@
       {
         "id": "211TPT03",
         "pack_name": "3rd Purchase",
+        "pack_image": "images/snowfallchapter03.jpg",
         "items_included": [
           "Headwear: Nutcracker March",
           "Momo Cloak: King of Candy",
@@ -94,6 +98,7 @@
       {
         "id": "211TPT04",
         "pack_name": "4th Purchase",
+        "pack_image": "images/snowfallchapter04.jpg",
         "items_included": [
           "Makeup: Starwish Fairytale", 
           "Revelation Crystal",
@@ -119,6 +124,7 @@
       {
         "id": "211TPT05",
         "pack_name": "5th Purchase",
+        "pack_image": "images/snowfallchapter05.jpg",
         "items_included": [
           "Decoration: Snowlit Shop Window", 
           "Revelation Crystal",
